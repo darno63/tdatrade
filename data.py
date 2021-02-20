@@ -55,23 +55,9 @@ def get_price_history(symbol):
             res = requests.get(url, params=params, headers={"Authorization": "Bearer " + access_token})
         else:
             return None
-
-    
-
     pretty_print(clean_dict(res.json()))
     print(res.status_code)
     print(res.url)
-    return res.json()
-
-def get_account():
-    auto_refresh()
-    tokens_to_get = ['account number', 'access token']
-    account_number, access_token = get_tokens(tokens_to_get)
-    url = r'https://api.tdameritrade.com/v1/accounts/' + account_number
-    
-    res = requests.get(url, headers={"Authorization": "Bearer " + access_token})
-    
-    pretty_print(clean_dict(res.json()))
     return res.json()
 
 if __name__ == "__main__":

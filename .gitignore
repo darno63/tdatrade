@@ -2,3 +2,9 @@
 venv/
 .vscode/
 *.ini
+orderformat.txt
+TODO.md
+tests/
+test.py
+test_trades.py
+testauth.py
