@@ -2,6 +2,12 @@ from auth.tokens import get_tokens
 from utils import auto_refresh, pretty_print, clean_dict
 from requests import request
 
+def status(func):
+    def inner_decorator(*args, **kwargs):
+        res = func(*args, **kwargs)
+        print(res.status_code)
+        return res
+    return inner_decorator
 
 def api_req(method, url_end, order=None, order_id=None):    
     auto_refresh()
@@ -47,9 +53,4 @@ def get_orders(order_id=None):
         pretty_print(json)
         return json['orderId']
 
-def status(func):
-    def inner_decorator(*args, **kwargs):
-        res = func(*args, **kwargs)
-        print(res.status_code)
-        return res
-    return inner_decorator
+

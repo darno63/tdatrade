@@ -13,6 +13,18 @@ def main():
     else:
         get_data(symbol_input)
 
+
+def get_user_principals(fields):
+    # 'streamerSubscriptionKeys,streamerConnectionInfo,preferences,surrogateIds'
+    auto_refresh()
+    url = r'https://api.tdameritrade.com/v1/userprincipals'
+    access_token = get_tokens('access token')
+    params = {'fields': fields}
+    headers = {'Authorization': 'Bearer ' + access_token}
+    res = requests.get(url, params=params, headers=headers)
+    print(res.status_code)
+    return res
+
 def get_data(symbol):
     tokens_to_get = ['account number', 'access token', 'access token ts', 'client id']
     account_number, access_token, ts, client_id = get_tokens(tokens_to_get)
