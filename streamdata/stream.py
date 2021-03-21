@@ -7,6 +7,7 @@ from streamdata.stream_reqs import Principals
 class WebSocketClient():
 
   def __init__(self):
+    self.principals = Principals()
     self.dummy = None
 
   async def connect(self, uri):
@@ -41,10 +42,8 @@ class WebSocketClient():
 
         
 if __name__ == '__main__':
-  # Initialize Princepals
-  principals = Principals()
   # Collecting uri and requests
-  login_req = principals.login()
+  login_req = principals.login_request()
   uri = principals.uri()
   # Creating client object
   client = WebSocketClient()

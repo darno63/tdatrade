@@ -43,20 +43,6 @@ class Principals():
     "appid": self.principals['streamerInfo']['appId']
     }
 
-  """
-  def _base_request(self, service, requestid, command, keys, fields):
-    request = {"requests": [{
-                 "service": service,
-                 "requestid": requestid,
-                 "command": command,
-                 "account": self.principals['accounts'][0]['accountId'],
-                 "source": self.principals['streamerInfo']['appId'],
-                 "parameters": {
-                   "keys": keys,
-                   "fields": fields
-                 }}]}
-    return json.dumps(request)
-  """
 
   def _base_request(self, service, requestid, command, parameters: dict):
     request = {"requests": [{
@@ -69,26 +55,24 @@ class Principals():
                  }]}
     return json.dumps(request)
 
-  def login_request(self):
-    request = {"requests": [{
-                 "service": "ADMIN",
-                 "requestid": 0,
-                 "command": "LOGIN",
-                 "account": self.principals['accounts'][0]['accountId'],
-                 "source": self.principals['streamerInfo']['appId'],
-                 "parameters": {
-                   "token": self.principals['streamerInfo']['token'],
-                   "version": "1.0",
-                   "credential": up.urlencode(self._create_credentials())
-                 }}]}
-    return json.dumps(request)
+
+  def login(self):
+    params = {
+      "token": self.principals['streamerInfo']['token'],
+      "version": "1.0",
+      "credential": up.urlencode(self._create_credentials())
+    }
+    return self._base_request("ADMIN", 0, "LOGIN", parameters=params)
+
 
   def logout(self):
     return self._base_request("ADMIN", "0", "LOGOUT", {})
 
+
   def quality_of_service(self, qoslevel: int):
     params = {"qoslevel": str(qoslevel)}
     return self._base_request("ADMIN", "2", "QOS", parameters=params)
+
 
   def chart_equity(self, ticker):
     params = {
@@ -97,6 +81,7 @@ class Principals():
     }
     return self._base_request("CHART_EQUITY", 5, "SUBS", parameters=params)
 
+
   def chart_futures(self, ticker):
     params = {
       "keys": ticker,
@@ -104,14 +89,34 @@ class Principals():
     }
     return self._base_request("CHART_FUTURES", 6, "SUBS", parameters=params)
 
-  def quote_request(self, ticker):
+
+  def quote_lvl1(self, ticker):
     params = {
       "keys": ticker,
       "fields": "0,1,2,3,4,5,6,7,8" 
     }
-    return self._base_request("QUOTE", 4, "SUBS", parameters=params)
+    return self._base_request("QUOTE", 7, "SUBS", parameters=params)
 
 
-  def create_request(self, func):
-    request = func(self.principals['accounts'][0]['accountId'], self.principals['streamerInfo']['appId'])
-    return json.dumps(request)
+  def option(self, ticker):
+    params = {
+      "keys": ticker,
+      "fields": "0,1,2,3,4,5,6,7,8"
+    }
+    return self._base_request("OPTION", 8, "SUBS", parameters=params)
+
+
+  def future_lvl1(self, ticker):
+    params = {
+      "keys": ticker,
+      "fields": "0,1,2,3,4,5,6,7,8"
+    }
+    return self._base_request("LEVELONE_FUTURES", 9, "SUBS", parameters=params)
+
+
+  def forex_lvl1(self, ticker):
+    params = {
+      "keys": ticker,
+      "fields": "0,1,2,3,4,5,6,7,8,9,10,11,12,13"
+    }
+    return self._base_request("LEVELONE_FOREX", 10, "SUBS", parameters=params)

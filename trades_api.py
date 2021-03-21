@@ -36,10 +36,11 @@ def delete_saved_order(saved_order_id):
     return api_req("POST", url_end)
 
 @status
-def get_account(full_data = False):
+def get_account(full_data = False, to_print=False):
     res = api_req("GET", '')
     json = res.json() if full_data else clean_dict(res.json())
-    pretty_print(json)
+    if to_print == True:
+        pretty_print(json)
     return res
 
 def get_orders(order_id=None):
