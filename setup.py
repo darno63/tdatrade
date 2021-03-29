@@ -1,5 +1,8 @@
-from distutils.core import setup
+from setuptools import setup
 
-setup(name='tdatrade',
+setup(
+      name='tdatrade',
       version='0.3',
-      packages='tdatrade')
+      url='https://github.com/darno63/tdatrade.git',
+      packages=['tdatrade']
+)

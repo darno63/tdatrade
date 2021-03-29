@@ -12,6 +12,7 @@ class Principals():
     self.principals = get_user_principals('streamerSubscriptionKeys,streamerConnectionInfo').json()
     self.account_id = self.principals['accounts'][0]['accountId']
     self.source_id = self.principals['streamerInfo']['appId']
+    self.requests = []
 
   def uri(self):
     return "wss://" + self.principals['streamerInfo']['streamerSocketUrl'] + "/ws"
@@ -45,24 +46,36 @@ class Principals():
 
 
   def _base_request(self, service, requestid, command, parameters: dict):
-    request = {"requests": [{
-                 "service": service,
-                 "requestid": requestid,
-                 "command": command,
-                 "account": self.principals['accounts'][0]['accountId'],
-                 "source": self.principals['streamerInfo']['appId'],
-                 "parameters": parameters
-                 }]}
+    request = [{
+      "service": service,
+      "requestid": requestid,
+      "command": command,
+      "account": self.principals['accounts'][0]['accountId'],
+      "source": self.principals['streamerInfo']['appId'],
+      "parameters": parameters
+    }]
+    self.requests += request
+
+  def subscriptions(self):
+    request = {"requests": self.requests}
     return json.dumps(request)
 
-
   def login(self):
-    params = {
-      "token": self.principals['streamerInfo']['token'],
-      "version": "1.0",
-      "credential": up.urlencode(self._create_credentials())
+    request = {
+      "requests": [{
+        "service": "ADMIN",
+        "requestid": 0,
+        "command": "LOGIN",
+        "account": self.principals['accounts'][0]['accountId'],
+        "source": self.principals['streamerInfo']['appId'],
+        "parameters": {
+          "token": self.principals['streamerInfo']['token'],
+          "version": "1.0",
+          "credential": up.urlencode(self._create_credentials())
+        }
+      }]
     }
-    return self._base_request("ADMIN", 0, "LOGIN", parameters=params)
+    return json.dumps(request)
 
 
   def logout(self):
@@ -120,3 +133,30 @@ class Principals():
       "fields": "0,1,2,3,4,5,6,7,8,9,10,11,12,13"
     }
     return self._base_request("LEVELONE_FOREX", 10, "SUBS", parameters=params)
+
+  def test_request(self):
+    request = {"requests": [
+      {
+        "service": "CHART_FUTURES",
+        "requestid": "1",
+        "command": "SUBS",
+        "account": self.principals['accounts'][0]['accountId'],
+        "source": self.principals['streamerInfo']['appId'],
+        "parameters": {
+          "keys": "/ES",
+          "fields": "0,1,2,3,4,5,6,7"
+        }
+      },
+      {
+        "service": "LEVELONE_FOREX",
+        "requestid": "2",
+        "command": "SUBS",
+        "account": self.principals['accounts'][0]['accountId'],
+        "source": self.principals['streamerInfo']['appId'],
+        "parameters": {
+          "keys": "EUR/USD",
+          "fields": "0,1,2,3,4,5,6,7,8"
+        }
+      }]}
+
+    return json.dumps(request)

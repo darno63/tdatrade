@@ -1,5 +1,6 @@
 import requests
 from time import time
+from datetime import date
 
 from auth.tokens import get_tokens
 from auth.auth import refresh_access_token
@@ -13,6 +14,16 @@ def main():
     else:
         get_data(symbol_input)
 
+def market_hours(markets = 'EQUITY, OPTION'):
+    auto_refresh()
+    access_token = get_tokens('access token')
+    url = r'https://api.tdameritrade.com/v1/marketdata/hours'
+    params = {
+        'markets': markets,
+        'data': date.today().isoformat(),
+    }
+    headers = {'Authorization': 'Bearer ' + access_token}
+    return requests.get(url, params=params, headers=headers)
 
 def get_user_principals(fields):
     # 'streamerSubscriptionKeys,streamerConnectionInfo,preferences,surrogateIds'
@@ -73,4 +84,4 @@ def get_price_history(symbol):
     return res.json()
 
 if __name__ == "__main__":
-    main()
+    print(market_hours().json())

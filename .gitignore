@@ -1,3 +1,4 @@
+__pycache__
 *.pyc
 venv/
 .vscode/
@@ -8,6 +9,8 @@ tests/
 test.py
 test_trades.py
 testauth.py
+*.toml
+.env
 
 isle_of_misfit_clients/
 trading_bot/
