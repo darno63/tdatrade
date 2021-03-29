@@ -10,3 +10,7 @@ Next Run authenticate
 ``
     authenticate()
       ``
+# TODO
+1. fix pathing for imports
+2. fix FILE_LOCATION path for tokens.ini
+3. add requests-oauth to requires
