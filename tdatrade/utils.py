@@ -1,8 +1,8 @@
 from pprint import PrettyPrinter, pprint
 from time import time, localtime, strftime
 
-from auth.auth import refresh_access_token
-from auth.tokens import get_tokens
+from tdatrade.auth.auth import refresh_access_token
+from tdatrade.auth.tokens import get_tokens
 
 def auto_refresh():
     ts = get_tokens('access token ts')

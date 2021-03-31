@@ -3,7 +3,7 @@ import json
 from calendar import timegm
 import urllib.parse as up
 
-from data import get_user_principals
+from tdatrade.data import get_user_principals
 
 
 class Principals():
@@ -79,7 +79,17 @@ class Principals():
 
 
   def logout(self):
-    return self._base_request("ADMIN", "0", "LOGOUT", {})
+    request = {
+      "requests": [{
+        "service": "ADMIN",
+        "requestid": 0,
+        "command": "LOGOUT",
+        "account": self.principals['accounts'][0]['accountId'],
+        "source": self.principals['streamerInfo']['appId'],
+        "parameters": {}
+      }]
+    }
+    return json.dumps(request)
 
 
   def quality_of_service(self, qoslevel: int):

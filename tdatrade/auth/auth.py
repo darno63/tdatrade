@@ -5,7 +5,7 @@ import urllib.parse as up
 import requests
 from requests_oauthlib import OAuth2Session
 
-from auth.tokens import get_tokens, save_tokens
+from tdatrade.auth.tokens import get_tokens, save_tokens
 
 AUTH_URL = r'https://api.tdameritrade.com/v1/oauth2/token'
 REDIRECT_URL = r'https://127.0.0.1'

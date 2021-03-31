@@ -1,10 +1,14 @@
+__all__ = (
+    'market_hours', 'get_data', 'get_price_history'
+)
+
 import requests
 from time import time
 from datetime import date
 
-from auth.tokens import get_tokens
-from auth.auth import refresh_access_token
-from utils import clean_dict, auto_refresh, pretty_print
+from tdatrade.auth.tokens import get_tokens
+from tdatrade.auth.auth import refresh_access_token
+from tdatrade.utils import clean_dict, auto_refresh, pretty_print
 
 def main():
     symbol_input = input("Ticker Symbol: ")

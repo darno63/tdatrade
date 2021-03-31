@@ -1,3 +1,8 @@
+from tdatrade import trades_api
+
+res = trades_api.get_account()
+print(res.json())
+
 class BaseOrder(object):
     
     def __init__(self, instruction, symbol, quantity, order_type="MARKET", asset_type="EQUITY",
