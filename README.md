@@ -35,3 +35,12 @@ client.future_lvl1('/ES')
 client.create_callback(callback_print)
 client.connect()
 ```
+
+## Market Hours
+#### Equity
+"preMarket" - 7AM - 9:30AM  
+"regularMarket": 9:30AM - 4PM  
+"postMarket": 4PM - 8PM
+
+#### Options
+"regularMarket": 9:30AM - 4PM
