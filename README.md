@@ -12,7 +12,6 @@ Requires a TD Ameritrade Account with at least level one streaming access
 1. Create a developer account through TD Ameritrade [here](https://developer.tdameritrade.com/)
 2. Go to My Apps to create your own app and take note of your Consumer Key
 
-<<<<<<< HEAD
  ---*under construction*---
 
 ## Real-time Streaming
@@ -36,13 +35,3 @@ client.future_lvl1('/ES')
 client.create_callback(callback_print)
 client.connect()
 ```
-=======
-Next Run authenticate  
-``
-    authenticate()
-      ``
-# TODO
-1. fix pathing for imports
-2. fix FILE_LOCATION path for tokens.ini
-3. add requests-oauth to requires
->>>>>>> 3a6a3a00e60d3d1f1f7bcd74cb584db5f03a6701
