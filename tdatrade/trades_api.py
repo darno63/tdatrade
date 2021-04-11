@@ -15,11 +15,11 @@ def status(func):
         return res
     return inner_decorator
 
-def api_req(method, url_end, order=None, order_id=None):    
+def api_req(method, url_end, params=None, order=None, order_id=None):    
     auto_refresh()
     account_number, access_token = get_tokens(['account number', 'access token'])
     url = r'https://api.tdameritrade.com/v1/accounts/' + account_number + url_end
-    return request(method, url, json=order, headers={"Authorization": "Bearer " + access_token})
+    return request(method, url, params=params, json=order, headers={"Authorization": "Bearer " + access_token})
 
 @status
 def place_order(order):
@@ -41,9 +41,12 @@ def delete_saved_order(saved_order_id):
     url_end = r'/savedorders/' + str(saved_order_id)
     return api_req("POST", url_end)
 
-@status
-def get_account(full_data = False, to_print=False):
-    res = api_req("GET", '')
+# @status
+def get_account(positions=False, full_data = False, to_print=False):
+    params = {}
+    if positions == True:
+        params['fields'] = 'positions'
+    res = api_req("GET", '', params=params)
     json = res.json() if full_data else clean_dict(res.json())
     if to_print == True:
         pretty_print(json)

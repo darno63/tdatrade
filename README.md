@@ -15,7 +15,7 @@ Requires a TD Ameritrade Account with at least level one streaming access
  ---*under construction*---
 
 ## Real-time Streaming
-The package `tdatrade.stream` provides the class `WebSocketClient()` which allows for building a group of requests and then handles sending and receiveing data form TDA's data stream.  
+The package `tdatrade.stream` provides the class `WebSocketClient()` which allows for building a group of requests and then handles sending and receiving data from TDA's data stream.  
 ```python
 client = WebSocketClient()
 client.forex_lvl1('EUR/USD')

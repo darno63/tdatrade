@@ -1,7 +1,8 @@
 from configparser import ConfigParser
 import os
 
-FILE_LOCATION = os.getcwd() + '\\tokens.ini'
+FILE_LOCATION = os.getcwd() + '\\tokens.ini' if os.name == 'nt' else os.getcwd() + '/tokens.ini'
+# FILE_LOCATION = os.getcwd() + '\\tokens.ini'
 
 def get_tokens(tokens):
     if os.path.exists(FILE_LOCATION) == False:
