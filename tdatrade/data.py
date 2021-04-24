@@ -4,7 +4,7 @@ __all__ = (
 
 import requests
 from time import time
-from datetime import date
+from datetime import date, datetime
 
 from tdatrade.auth.tokens import get_tokens
 from tdatrade.auth.auth import refresh_access_token
@@ -64,7 +64,35 @@ def get_data(symbol):
     print(res.url)
     return res.json()
 
-def get_price_history(symbol):
+def get_price_history(symbol, frequency_type="weekly", frequency=1, period_type="month",
+                      period=None, enddate=None, startdate=None, to_pretty_print=False):
+    auto_refresh()
+    access_token, client_id = get_tokens(['access token', 'client id'])
+    url = r'https://api.tdameritrade.com/v1/marketdata/' + symbol + r'/pricehistory'
+    
+    params = {
+        "apikey": client_id.split('@')[0], 
+        "periodType": period_type, 
+        "frequencyType": frequency_type, 
+        "frequency": frequency
+    }
+
+    if period != None and startdate != None:
+        print('ERROR: period and startdate can not both be used')
+    if period != None:
+        params['period'] = period
+    if enddate != None:
+        params['endDate'] = int(datetime.fromisoformat(enddate).timestamp()) * 1000
+    if startdate != None:
+        params['startDate'] = int(datetime.fromisoformat(startdate).timestamp()) * 1000
+    
+    res = requests.get(url, params=params, headers={"Authorization": "Bearer " + access_token})
+
+    if to_pretty_print == True:
+        pretty_print(clean_dict(res.json()))
+    return res.json()
+
+def get_price_history2(symbol):
     tokens_to_get = ['access token', 'access token ts', 'client id']
     access_token, ts, client_id = get_tokens(tokens_to_get)
     client_id = client_id.split('@')[0]
@@ -88,4 +116,4 @@ def get_price_history(symbol):
     return res.json()
 
 if __name__ == "__main__":
-    print(market_hours().json())
+    get_price_history('TSLA')

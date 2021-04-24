@@ -11,6 +11,7 @@ test_trades.py
 testauth.py
 *.toml
 .env
+order_ex
 
 isle_of_misfit_clients/
 trading_bot/
